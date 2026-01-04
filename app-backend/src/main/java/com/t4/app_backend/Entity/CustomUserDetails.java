@@ -7,18 +7,19 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class CustomUserDetails implements UserDetails {
-    private String username;
+    private String email;
     private String password;
+    private String name;
 
-
-    public CustomUserDetails(String username, String password) {
-        this.username = username;
+    public CustomUserDetails(String email, String password, String name) {
+        this.email = email;
         this.password = password;
+        this.name = name;
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override

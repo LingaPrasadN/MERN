@@ -7,10 +7,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RegisterUserRepository extends JpaRepository<RegisterUser, Long> {
 
-    
-    RegisterUser findByUsernameAndPassword(String username, String password);
 
-    RegisterUser findByUsername(String username);
+
+    RegisterUser findByEmailAndPassword(String email, String password);
+
+    RegisterUser findByEmail(String email);
 
     
 } 

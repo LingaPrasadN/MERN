@@ -3,7 +3,7 @@ import api from "../axios";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [Username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
@@ -13,7 +13,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await api.post("/auth/login", {
-        username: Username,
+        email: email,
         password: Password,
       });
       const token = response.data;
@@ -34,9 +34,9 @@ function Login() {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Username"
-          value={Username}
-          onChange={(e) => setUsername(e.target.value)}
+          placeholder="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <input

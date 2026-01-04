@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.t4.app_backend.DTO.LoginDTO;
 import com.t4.app_backend.DTO.RegisterDTO;
+import com.t4.app_backend.DTO.VerifyRegisterOtpDTO;
+import com.t4.app_backend.Entity.Otp;
 import com.t4.app_backend.Entity.RegisterUser;
 import com.t4.app_backend.Repository.RegisterUserRepository;
 import com.t4.app_backend.Util.JWTUtil;
@@ -29,11 +31,45 @@ public class AuthService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private OtpService otpService;
+
+    @Autowired
+    private RegisterUserRepository userRepository;
+
     public ResponseEntity<String> registerUser(RegisterDTO registerDTO) {
 
+        if (userRepository.findByEmail(registerDTO.getEmail()) != null) {
+            return ResponseEntity.badRequest().body("Email already registered");
+        }
+
+        otpService.generateAndSendOtp(registerDTO.getEmail());
+
+        return ResponseEntity.ok("OTP sent to email. Please verify to complete registration.");
+        // RegisterUser registerUser = new RegisterUser();
+        // registerUser.setEmail(registerDTO.getEmail());
+        // registerUser.setName(registerDTO.getName());
+        // registerUser.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+
+        // registerUserRepository.save(registerUser);
+
+        // return ResponseEntity.ok("User registered successfully");
+    }
+
+    public ResponseEntity<String> verifyRegisterOtp(VerifyRegisterOtpDTO verifyRegisterOtpDTO) {
+
+        System.out.println("Verifying OTP for email: " + verifyRegisterOtpDTO.getEmail() + ", OTP: "
+                + verifyRegisterOtpDTO.getOtp());
+        boolean isOtpValid = otpService.verifyOtp(verifyRegisterOtpDTO.getEmail(), verifyRegisterOtpDTO.getOtp());
+
+        if (!isOtpValid) {
+            return ResponseEntity.badRequest().body("Invalid OTP");
+        }
+
         RegisterUser registerUser = new RegisterUser();
-        registerUser.setUsername(registerDTO.getUsername());
-        registerUser.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+        registerUser.setEmail(verifyRegisterOtpDTO.getEmail());
+        registerUser.setName(verifyRegisterOtpDTO.getName());
+        registerUser.setPassword(passwordEncoder.encode(verifyRegisterOtpDTO.getPassword()));
 
         registerUserRepository.save(registerUser);
 
@@ -44,7 +80,7 @@ public class AuthService {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginDTO.getUsername(),
+                        loginDTO.getEmail(),
                         loginDTO.getPassword()));
 
         String token = jwtUtil.generateToken(authentication.getName());

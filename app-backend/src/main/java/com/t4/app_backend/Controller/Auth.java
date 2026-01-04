@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.t4.app_backend.DTO.LoginDTO;
 import com.t4.app_backend.DTO.RegisterDTO;
+import com.t4.app_backend.DTO.VerifyRegisterOtpDTO;
 import com.t4.app_backend.Service.AuthService;
 
 @RestController
@@ -21,6 +22,11 @@ public class Auth {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterDTO registerDTO) {
         return authService.registerUser(registerDTO);
+    }
+
+    @PostMapping("/verify-register-otp")
+    public ResponseEntity<String> verifyRegisterOtp(@RequestBody VerifyRegisterOtpDTO verifyRegisterOtpDTO) {
+        return authService.verifyRegisterOtp(verifyRegisterOtpDTO);
     }
 
     @PostMapping("/login")

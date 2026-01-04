@@ -18,8 +18,10 @@ export default function Logout() {
   }, [navigate]);
 
   return (
-    <div>
-      <h2>{message}</h2>
+    <div className="container">
+      <div className="card">
+        <h2>{message}</h2>
+      </div>
     </div>
   );
 }

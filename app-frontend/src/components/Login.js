@@ -16,7 +16,6 @@ function Login() {
         username: Username,
         password: Password,
       });
-      console.log("Login successful:", response);
       const token = response.data;
       localStorage.setItem("token", token);
       setMessage("Login successful!");
@@ -24,14 +23,14 @@ function Login() {
         navigate("/dashboard");
       }, 500);
     } catch (error) {
-      console.error("Login failed:", error);
       setMessage("Login failed. Please try again.");
     }
   };
 
   return (
-    <div>
-      <h1>Login Page</h1>
+    <div className="form-container card">
+      <h2>Login</h2>
+
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -39,17 +38,18 @@ function Login() {
           value={Username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        <br />
-        <br />
+
         <input
           type="password"
           placeholder="Password"
           value={Password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <br />
-        <br />
-        <button type="submit">Login</button>
+
+        <button type="submit" className="btn-primary">
+          Login
+        </button>
+
         {message && <p>{message}</p>}
       </form>
     </div>

@@ -16,37 +16,42 @@ function Register() {
       });
       setMessage("Registration successful!");
     } catch (error) {
-      console.error("Registration failed:", error);
       setMessage("Registration failed. Please try again.");
     }
   };
 
   return (
-    <div>
-      <h1>Register Page</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <br /> <br />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <br /> <br />
-        <button type="submit">Register</button>
-        {message && (
-          <div>
-            <p>{message}</p> <br />
-            <Link to="/">Login</Link>
-          </div>
-        )}
-      </form>
+    <div className="container">
+      <div className="form-container card">
+        <h2>Register</h2>
+
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button type="submit" className="btn-primary">
+            Register
+          </button>
+
+          {message && (
+            <p>
+              {message} <br />
+              <Link to="/">Login</Link>
+            </p>
+          )}
+        </form>
+      </div>
     </div>
   );
 }

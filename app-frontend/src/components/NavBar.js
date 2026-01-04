@@ -2,20 +2,16 @@ import { Link } from "react-router-dom";
 
 function NavBar() {
   return (
-    <ul>
-      <li>
+    <div className="navbar">
+      <h2>MERN App</h2>
+
+      <div className="nav-links">
         <Link to="/dashboard">Home</Link>
-      </li>
-      <li>
         <Link to="/profile">Profile</Link>
-      </li>
-      <li>
         <Link to="/friends">Friends</Link>
-      </li>
-      <li>
         <Link to="/logout">Logout</Link>
-      </li>
-    </ul>
+      </div>
+    </div>
   );
 }
 

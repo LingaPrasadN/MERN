@@ -12,16 +12,20 @@ function Dashboard() {
         setData(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching dashboard data:", error);
+        console.error(error);
       });
   }, []);
 
   return (
-    <div>
+    <>
       <NavBar />
-      <h1>Dashboard</h1>
-      <p>{data}</p>
-    </div>
+      <div className="container">
+        <div className="card">
+          <h1>Dashboard</h1>
+          <p>{data}</p>
+        </div>
+      </div>
+    </>
   );
 }
 

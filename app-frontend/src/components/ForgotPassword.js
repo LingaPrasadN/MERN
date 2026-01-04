@@ -1,14 +1,20 @@
-function ForgotPassword() {     
-    return (
-        <div>
-            <h1>Forgot Password Page</h1>
-            <form>
-                <input type="email" placeholder="Email" /><br /> <br />
-                <input type="password" placeholder="New Password" /><br /> <br />
-                <button type="submit">Reset Password</button>
-            </form>
-        </div>
-    );
+function ForgotPassword() {
+  return (
+    <div className="container">
+      <div className="form-container card">
+        <h2>Forgot Password</h2>
+
+        <form>
+          <input type="email" placeholder="Email" />
+          <input type="password" placeholder="New Password" />
+
+          <button type="submit" className="btn-primary">
+            Reset Password
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default ForgotPassword;

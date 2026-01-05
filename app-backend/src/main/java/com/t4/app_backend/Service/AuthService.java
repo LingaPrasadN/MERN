@@ -12,15 +12,15 @@ import com.t4.app_backend.DTO.LoginDTO;
 import com.t4.app_backend.DTO.RegisterDTO;
 import com.t4.app_backend.DTO.VerifyRegisterOtpDTO;
 import com.t4.app_backend.Entity.Otp;
-import com.t4.app_backend.Entity.RegisterUser;
-import com.t4.app_backend.Repository.RegisterUserRepository;
+import com.t4.app_backend.Entity.User;
+import com.t4.app_backend.Repository.UserRepository;
 import com.t4.app_backend.Util.JWTUtil;
 
 @Service
 public class AuthService {
 
     @Autowired
-    private RegisterUserRepository registerUserRepository;
+    private UserRepository registerUserRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -35,7 +35,7 @@ public class AuthService {
     private OtpService otpService;
 
     @Autowired
-    private RegisterUserRepository userRepository;
+    private UserRepository userRepository;
 
     public ResponseEntity<String> registerUser(RegisterDTO registerDTO) {
 
@@ -66,7 +66,7 @@ public class AuthService {
             return ResponseEntity.badRequest().body("Invalid OTP");
         }
 
-        RegisterUser registerUser = new RegisterUser();
+        User registerUser = new User();
         registerUser.setEmail(verifyRegisterOtpDTO.getEmail());
         registerUser.setName(verifyRegisterOtpDTO.getName());
         registerUser.setPassword(passwordEncoder.encode(verifyRegisterOtpDTO.getPassword()));

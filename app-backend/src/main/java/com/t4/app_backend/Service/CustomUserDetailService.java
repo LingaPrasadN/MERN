@@ -6,19 +6,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.t4.app_backend.Entity.CustomUserDetails;
-import com.t4.app_backend.Entity.RegisterUser;
-import com.t4.app_backend.Repository.RegisterUserRepository;
+import com.t4.app_backend.Entity.User;
+import com.t4.app_backend.Repository.UserRepository;
 
 @Service
 public class CustomUserDetailService implements UserDetailsService {
 
     @Autowired
-    private RegisterUserRepository registerUserRepository;
+    private UserRepository registerUserRepository;
 
     @Override
     public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        RegisterUser user = registerUserRepository.findByEmail(username);
+        User user = registerUserRepository.findByEmail(username);
 
         return new CustomUserDetails(user.getEmail(), user.getPassword(), user.getName());
     }

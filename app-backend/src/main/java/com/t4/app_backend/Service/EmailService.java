@@ -21,4 +21,15 @@ public class EmailService {
                         "Do not share it with anyone.");
         mailSender.send(message);
     }
+
+    public void sendInviteEmail(String fromUser, String toEmail) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject("Hey! You have a message from a friend");
+        message.setText(
+                "User with ID " + fromUser + " has invited you to join our platform.\n\n" +
+                        "Click the link below to accept the invitation:\n" +
+                        "http://randomlink");
+        mailSender.send(message);
+    }
 }

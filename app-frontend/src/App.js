@@ -10,6 +10,7 @@ import Profile from "./components/Profile";
 import Friends from "./components/Friends";
 import Logout from "./components/Logout";
 import ProtectedRoute from "./ProtectedRoute";
+import Invite from "./components/Invite";
 
 function App() {
   return (
@@ -19,6 +20,14 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route
+          path="/invites"
+          element={
+            <ProtectedRoute>
+              <Invite />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/dashboard"
           element={

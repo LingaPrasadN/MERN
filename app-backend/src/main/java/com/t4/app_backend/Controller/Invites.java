@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping("/invites")
@@ -24,7 +24,7 @@ public class Invites {
 
     @PostMapping("/send")
     public void sendInvite(@AuthenticationPrincipal CustomUserDetails user, @RequestBody InviteDTO inviteDTO) {
-        
+
         inviteService.sendInvite(user, inviteDTO);
     }
 
@@ -37,7 +37,15 @@ public class Invites {
     public Object getReceivedInvites(@AuthenticationPrincipal CustomUserDetails user) {
         return inviteService.getReceivedInvites(user);
     }
-    
-    
+
+    @PostMapping("/accept/{inviteId}")
+    public Object acceptInvite(@PathVariable Long inviteId) {
+        return inviteService.acceptInvite(inviteId);
+    }
+
+    @PostMapping("/reject/{inviteId}")
+    public Object rejectInvite(@PathVariable Long inviteId) {
+        return inviteService.rejectInvite(inviteId);
+    }
 
 }

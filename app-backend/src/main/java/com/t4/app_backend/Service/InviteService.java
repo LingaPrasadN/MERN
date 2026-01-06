@@ -4,6 +4,8 @@ import com.t4.app_backend.DTO.InviteDTO;
 import com.t4.app_backend.Entity.CustomUserDetails;
 import com.t4.app_backend.Entity.Invite;
 import com.t4.app_backend.Repository.InviteRepository;
+import com.t4.app_backend.Repository.UserRepository;
+import com.t4.app_backend.enums.InviteStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +21,12 @@ public class InviteService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private FriendService friendService;
 
     public void sendInvite(CustomUserDetails user, InviteDTO inviteDTO) {
 
@@ -44,6 +52,22 @@ public class InviteService {
     public List<Invite> getReceivedInvites(CustomUserDetails user) {
         String loggedInUserId = user.getUsername();
         return inviteRepository.findAllByInviteeEmail(loggedInUserId);
+
+    }
+
+    public Invite acceptInvite(Long inviteId) {
+        Invite invite = inviteRepository.findById(inviteId).get();
+        invite.setStatus(InviteStatus.ACCEPTED);
+        Long userId1 = userRepository.findByEmail(invite.getInviterEmail()).getId();
+        Long userId2 = userRepository.findByEmail(invite.getInviteeEmail()).getId();
+        friendService.addFriend(userId1, userId2);
+        return inviteRepository.save(invite);
+    }
+
+    public Invite rejectInvite(Long inviteId) {
+        Invite invite = inviteRepository.findById(inviteId).get();
+        invite.setStatus(InviteStatus.REJECTED);
+        return inviteRepository.save(invite);
 
     }
 

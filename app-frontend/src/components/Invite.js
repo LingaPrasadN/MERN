@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import api from "../axios";
+import NavBar from "./NavBar";
 
 export default function Invite() {
   const [newInvites, setNewInvites] = useState(false);
   const [email, setEmail] = useState("");
   const [invites, setInvites] = useState([]);
   const [receivedInvites, setReceivedInvites] = useState([]);
+  const [receivedInvitesState, setReceivedInvitesState] = useState(false);
 
   useEffect(() => {
     api
@@ -36,7 +38,7 @@ export default function Invite() {
     const interval = setInterval(fetchReceivedInvites, 10000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [receivedInvitesState]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,6 +58,7 @@ export default function Invite() {
     try {
       await api.post(`/invites/accept/${inviteId}`);
       alert("Invite accepted successfully!");
+      setReceivedInvitesState((prev) => !prev);
     } catch (error) {
       alert("Failed to accept invite.");
     }
@@ -65,6 +68,7 @@ export default function Invite() {
     try {
       await api.post(`/invites/reject/${inviteId}`);
       alert("Invite rejected successfully!");
+      setReceivedInvitesState((prev) => !prev);
     } catch (error) {
       alert("Failed to reject invite.");
     }
@@ -72,6 +76,7 @@ export default function Invite() {
 
   return (
     <>
+      <NavBar />
       <div className="container">
         <div className="card">
           <h1>Received Invites</h1>
@@ -81,7 +86,7 @@ export default function Invite() {
             <ul>
               {receivedInvites.map((invite) => (
                 <li key={invite.id}>
-                  <p>Email: {invite.inviteeEmail}</p>
+                  <p>Email: {invite.inviterEmail}</p>
                   <p>Sent At: {invite.sentAt}</p>
                   <p>Status: {invite.status}</p>
                   {invite.status === "PENDING" && (

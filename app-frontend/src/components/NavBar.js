@@ -8,6 +8,7 @@ function NavBar() {
       <div className="nav-links">
         <Link to="/dashboard">Home</Link>
         <Link to="/profile">Profile</Link>
+        <Link to="/invites">Invites</Link>
         <Link to="/friends">Friends</Link>
         <Link to="/logout">Logout</Link>
       </div>
